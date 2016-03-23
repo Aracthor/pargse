@@ -1,5 +1,9 @@
-int	pargse_init()
+#include <stddef.h>
+
+#include "pargse.h"
+
+void	pargse_init(pargse* pargse)
 {
-    // TODO
-    return 0;
+    pargse->fixed_args = NULL;
+    pargse->fixed_args_number = 0;
 }

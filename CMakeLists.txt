@@ -25,3 +25,6 @@ foreach(file ${SRCS_FILES})
 endforeach()
 
 add_library(pargse ${SRCS})
+
+set(SAMPLES_DIR samples)
+add_subdirectory(${SAMPLES_DIR})

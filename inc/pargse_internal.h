@@ -12,27 +12,40 @@
 PARGSE_EXTERN_C_BEGIN
 
 typedef struct pargse_fixed_arg_s	pargse_fixed_arg;
+typedef struct pargse_s			pargse;
 
 
-typedef int	(*pargse_parse_fixed_arg_method)(pargse_fixed_arg* arg, char* token);
+typedef int	(*pargse_parse_fixed_arg_method)(pargse* pargse, pargse_fixed_arg* arg, char* token);
+
+
+typedef enum	pargse_bool_e
+{
+    pargse_false = 0,
+    pargse_true = 1
+}		pargse_bool;
 
 
 typedef struct				pargse_fixed_arg_s
 {
-
     unsigned int			position;
+    const char*				name;
     void*				data;
     pargse_parse_fixed_arg_method	method;
 }					pargse_fixed_arg;
 
-typedef struct
+typedef struct		pargse_s
 {
+    unsigned int	argc;
+    char**		argv;
     pargse_fixed_arg*	fixed_args;
     unsigned int	fixed_args_number;
 }			pargse;
 
-int	pargse_parse_fixed_int(pargse_fixed_arg* arg, char* token);
-int	pargse_parse_fixed_str(pargse_fixed_arg* arg, char* token);
+int	pargse_parse_fixed_int(pargse* pargse, pargse_fixed_arg* arg, char* token);
+int	pargse_parse_fixed_str(pargse* pargse, pargse_fixed_arg* arg, char* token);
+int	pargse_parse_fixed_args(pargse* pargse);
+
+void	pargse_error(const pargse* pargse, pargse_bool print_usage, const char* str, ...);
 
 PARGSE_EXTERN_C_END
 

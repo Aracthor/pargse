@@ -5,9 +5,11 @@
 
 PARGSE_EXTERN_C_BEGIN
 
-void	pargse_init(pargse* pargse);
-int	pargse_add_fixed_int_arg(pargse* pargse, int* number);
-int	pargse_add_fixed_str_arg(pargse* pargse, char** str);
+void	pargse_init(pargse* pargse, int argc, char** argv);
+int	pargse_add_fixed_int_arg(pargse* pargse, const char* name, int* number);
+int	pargse_add_fixed_str_arg(pargse* pargse, const char* name, char** str);
+
+int	pargse_parse(pargse* pargse);
 
 PARGSE_EXTERN_C_END
 

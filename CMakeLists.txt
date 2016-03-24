@@ -24,7 +24,7 @@ foreach(file ${SRCS_FILES})
   set(SRCS ${SRCS} ${SRCS_DIR}/${file})
 endforeach()
 
-add_library(pargse ${SRCS})
+add_library(pargse SHARED ${SRCS})
 
 set(SAMPLES_DIR samples)
 add_subdirectory(${SAMPLES_DIR})

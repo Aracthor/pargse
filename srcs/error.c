@@ -9,7 +9,7 @@ static void	concat_fixed_arg(char* buffer, size_t* remaining, pargse_fixed_arg* 
     strncat(buffer, " ", *remaining);
     (*remaining)--;
     strncat(buffer, arg->name, *remaining);
-    remaining -= strlen(arg->name);
+    *remaining -= strlen(arg->name);
 }
 
 static void	concat_flagged_arg(char* buffer, size_t* remaining, pargse_flagged_arg* arg)

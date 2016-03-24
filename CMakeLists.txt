@@ -28,3 +28,6 @@ add_library(pargse SHARED ${SRCS})
 
 set(SAMPLES_DIR samples)
 add_subdirectory(${SAMPLES_DIR})
+
+install (DIRECTORY inc/ DESTINATION include)
+install (TARGETS pargse DESTINATION lib)

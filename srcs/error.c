@@ -4,6 +4,36 @@
 #include <stdio.h>
 #include <string.h>
 
+static void	concat_fixed_arg(char* buffer, size_t* remaining, pargse_fixed_arg* arg)
+{
+    strncat(buffer, " ", *remaining);
+    (*remaining)--;
+    strncat(buffer, arg->name, *remaining);
+    remaining -= strlen(arg->name);
+}
+
+static void	concat_flagged_arg(char* buffer, size_t* remaining, pargse_flagged_arg* arg)
+{
+    strncat(buffer, " ", *remaining);
+    (*remaining)--;
+    if (!arg->mandatory)
+    {
+	strncat(buffer, "[", *remaining);
+	(*remaining)--;
+    }
+    strncat(buffer, "-", *remaining);
+    *remaining -= 3;
+    buffer[0x1000 - *remaining - 2] = arg->flag;
+    buffer[0x1000 - *remaining - 1] = ' ';
+    strncat(buffer, arg->name, *remaining);
+    *remaining -= strlen(arg->name);
+    if (!arg->mandatory)
+    {
+	strncat(buffer, "]", *remaining);
+	*remaining -= 1;
+    }
+}
+
 static void		print_program_usage(const pargse* pargse)
 {
     char		buffer[0x1000 + 1];
@@ -18,10 +48,12 @@ static void		print_program_usage(const pargse* pargse)
 
     for (i = 0; i < pargse->fixed_args_number; i++)
     {
-	strncat(buffer, " ", remaining);
-	remaining -= 1;
-	strncat(buffer, pargse->fixed_args[i].name, remaining);
-	remaining -= strlen(pargse->fixed_args[i].name);
+	concat_fixed_arg(buffer, &remaining, &pargse->fixed_args[i]);
+    }
+
+    for (i = 0; i < pargse->flagged_args_number; i++)
+    {
+	concat_flagged_arg(buffer, &remaining, &pargse->flagged_args[i]);
     }
 
     fprintf(stderr, "%s\n", buffer);

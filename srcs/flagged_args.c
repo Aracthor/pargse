@@ -35,6 +35,11 @@ int	pargse_add_flagged_str_arg(pargse* pargse, char flag, const char* name, parg
     return add_flagged_arg(pargse, flag, name, mandatory, str, &pargse_parse_str);
 }
 
+int	pargse_add_flagged_bool_arg(pargse* pargse, char flag, const char* name, pargse_bool* boolean)
+{
+    return add_flagged_arg(pargse, flag, name, pargse_false, boolean, NULL);
+}
+
 static void	unexpected_token(pargse* pargse, const char* token)
 {
     pargse_error(pargse, pargse_true, "Unexpected token \"%s\".\n", token);
@@ -123,6 +128,10 @@ static int	read_token(pargse* pargse, pargse_bool* found, pargse_flagged_arg** c
 	{
 	    return 1;
 	}
+	if ((*current_arg)->method == NULL)
+	{
+	    *current_arg = NULL;
+	}
     }
     else
     {
@@ -134,6 +143,19 @@ static int	read_token(pargse* pargse, pargse_bool* found, pargse_flagged_arg** c
     }
 
     return 0;
+}
+
+static void		set_booleans_args(pargse* pargse, pargse_bool* found)
+{
+    unsigned int	i;
+
+    for (i = 0; i < pargse->flagged_args_number; i++)
+    {
+	if (pargse->flagged_args[i].method == NULL)
+	{
+	    *((pargse_bool*)pargse->flagged_args[i].data) = found[i];
+	}
+    }
 }
 
 static int		check_mandatories(pargse* pargse, pargse_bool* found)
@@ -187,6 +209,7 @@ int			pargse_parse_flagged_args(pargse* pargse)
 
 	if (error == 0)
 	{
+	    set_booleans_args(pargse, found);
 	    error = check_mandatories(pargse, found);
 	}
 	free(found);

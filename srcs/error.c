@@ -21,12 +21,17 @@ static void	concat_flagged_arg(char* buffer, size_t* remaining, pargse_flagged_a
 	strncat(buffer, "[", *remaining);
 	(*remaining)--;
     }
-    strncat(buffer, "-", *remaining);
-    *remaining -= 3;
-    buffer[0x1000 - *remaining - 2] = arg->flag;
-    buffer[0x1000 - *remaining - 1] = ' ';
-    strncat(buffer, arg->name, *remaining);
-    *remaining -= strlen(arg->name);
+    buffer[0x1000 - *remaining] = '-';
+    (*remaining)--;
+    buffer[0x1000 - *remaining] = arg->flag;
+    (*remaining)--;
+    if (arg->method != NULL)
+    {
+	buffer[0x1000 - *remaining] = ' ';
+	(*remaining)--;
+	strncat(buffer, arg->name, *remaining);
+	*remaining -= strlen(arg->name);
+    }
     if (!arg->mandatory)
     {
 	strncat(buffer, "]", *remaining);

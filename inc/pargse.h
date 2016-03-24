@@ -12,6 +12,7 @@ int	pargse_add_fixed_str_arg(pargse* pargse, const char* name, char** str);
 
 int	pargse_add_flagged_int_arg(pargse* pargse, char flag, const char* name, pargse_bool mandatory, int* number);
 int	pargse_add_flagged_str_arg(pargse* pargse, char flag, const char* name, pargse_bool mandatory, char** str);
+int	pargse_add_flagged_bool_arg(pargse* pargse, char flag, const char* name, pargse_bool* boolean);
 
 int	pargse_parse(pargse* pargse);
 

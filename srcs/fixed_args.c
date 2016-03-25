@@ -21,6 +21,11 @@ static int	add_fixed_arg(pargse* pargse, const char* name, void* data, pargse_pa
     return 0;
 }
 
+int	pargse_add_fixed_char_arg(pargse* pargse, const char* name, char* c)
+{
+    return add_fixed_arg(pargse, name, c, &pargse_parse_char);
+}
+
 int	pargse_add_fixed_int_arg(pargse* pargse, const char* name, int* number)
 {
     return add_fixed_arg(pargse, name, number, &pargse_parse_int);

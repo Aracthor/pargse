@@ -18,11 +18,13 @@ int	pargse_parse(pargse* pargse)
 {
     if (pargse_parse_fixed_args(pargse) != 0)
     {
+	destroy(pargse);
 	return 1;
     }
 
     if (pargse_parse_flagged_args(pargse) != 0)
     {
+	destroy(pargse);
 	return 1;
     }
 
@@ -32,6 +34,18 @@ int	pargse_parse(pargse* pargse)
 }
 
 
+int		pargse_parse_char(pargse* pargse, const char* name, void* data, char* token)
+{
+    if (token[0] == '\0' || token[1] != '\0')
+    {
+	pargse_error(pargse, pargse_false,
+		     "Need a single characeter as argument for %s, instead of \"%s\".\n", name, token);
+	return 1;
+    }
+    *((char*)data) = token[0];
+    return 0;
+}
+
 static void	bad_int_arg(pargse* pargse, const char* name, char *token)
 {
     pargse_error(pargse, pargse_false, "Need a number as argument for %s, instead of \"%s\".\n", name, token);
@@ -39,7 +53,6 @@ static void	bad_int_arg(pargse* pargse, const char* name, char *token)
 
 int			pargse_parse_int(pargse* pargse, const char* name, void* data, char* token)
 {
-    int*		number = (int*)data;
     unsigned int	i;
 
     for (i = 0; token[i] != '\0'; i++)
@@ -57,16 +70,14 @@ int			pargse_parse_int(pargse* pargse, const char* name, void* data, char* token
 	return 1;
     }
 
-    *number = atoi(token);
+    *((int*)data) = atoi(token);
     return 0;
 }
 
 int		pargse_parse_str(pargse* pargse, const char* name, void* data, char* token)
 {
-    char**	str = (char**)data;
-
     (void)pargse;
     (void)name;
-    *str = token;
+    *((char**)data) = token;
     return 0;
 }

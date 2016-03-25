@@ -53,6 +53,7 @@ typedef struct		pargse_s
     unsigned int	flagged_args_number;
 }			pargse;
 
+int	pargse_parse_char(pargse* pargse, const char* name, void* data, char* token);
 int	pargse_parse_int(pargse* pargse, const char* name, void* data, char* token);
 int	pargse_parse_str(pargse* pargse, const char* name, void* data, char* token);
 int	pargse_parse_fixed_args(pargse* pargse);

@@ -25,6 +25,11 @@ static int	add_flagged_arg(pargse* pargse, char flag, const char* name, pargse_b
 }
 
 
+int	pargse_add_flagged_char_arg(pargse* pargse, char flag, const char* name, pargse_bool mandatory, char* c)
+{
+    return add_flagged_arg(pargse, flag, name, mandatory, c, &pargse_parse_char);
+}
+
 int	pargse_add_flagged_int_arg(pargse* pargse, char flag, const char* name, pargse_bool mandatory, int* number)
 {
     return add_flagged_arg(pargse, flag, name, mandatory, number, &pargse_parse_int);
@@ -198,20 +203,23 @@ int			pargse_parse_flagged_args(pargse* pargse)
 	error = 0;
 	for (index = pargse->fixed_args_number + 1; index < pargse->argc && error == 0; index++)
 	{
-	    error = read_token(pargse, found, &current_arg, pargse->argv[index]);
+	    if (read_token(pargse, found, &current_arg, pargse->argv[index]) != 0)
+	    {
+		free(found);
+		return 1;
+	    }
 	}
 
 	if (current_arg != NULL)
 	{
 	    pargse_error(pargse, pargse_true, "Missing data after token \"%s\".\n", pargse->argv[pargse->argc - 1]);
-	    error = 1;
+	    free(found);
+	    return 1;
 	}
 
-	if (error == 0)
-	{
-	    set_booleans_args(pargse, found);
-	    error = check_mandatories(pargse, found);
-	}
+	set_booleans_args(pargse, found);
+	error = check_mandatories(pargse, found);
+
 	free(found);
     }
 

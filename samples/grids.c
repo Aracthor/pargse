@@ -10,11 +10,13 @@ int		main(int argc, char** argv)
     char*	name = NULL;
     int		x, y;
     int		repeat;
+    char	c = '#';
     pargse_bool	bold;
 
     pargse_init(&pargse, argc, argv);
     if (pargse_add_fixed_int_arg(&pargse, "width", &width) ||
 	pargse_add_fixed_int_arg(&pargse, "height", &height) ||
+	pargse_add_flagged_char_arg(&pargse, 'c', "character", pargse_false, &c) ||
 	pargse_add_flagged_int_arg(&pargse, 'r', "repeat", pargse_true, &repeat) ||
 	pargse_add_flagged_str_arg(&pargse, 'n', "name", pargse_false, &name) ||
 	pargse_add_flagged_bool_arg(&pargse, 'b', "bold", &bold))
@@ -44,7 +46,7 @@ int		main(int argc, char** argv)
 	{
 	    for (x = 0; x < width; x++)
 	    {
-		printf("#");
+		printf("%c", c);
 	    }
 	    printf("\n");
 	}

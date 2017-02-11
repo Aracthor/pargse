@@ -4,15 +4,15 @@ project("pargse")
 
 if("${CMAKE_C_COMPILER_ID}" STREQUAL "GNU" OR
    "${CMAKE_C_COMPILER_ID}" STREQUAL "Clang")
- set(warnings "-Wall -Wextra -Werror -Wmissing-prototypes")
+ set(warnings "-Wall -Wextra -Werror")
 elseif("${CMAKE_C_COMPILER_ID}" STREQUAL "MSVC")
   set(warnings "/W4 /WX /EHsc")
 endif()
 
 if (NOT CONFIGURED_ONCE)
-  set(CMAKE_C_FLAGS "${warnings}"
+  set(CMAKE_C_FLAGS "${warnings} -Wmissing-prototypes"
     CACHE STRING "Flags used by the compiler during all build types." FORCE)
-  set(CMAKE_CXX3_FLAGS "${warnings}"
+  set(CMAKE_CXX_FLAGS "${warnings}"
     CACHE STRING "Flags used by the compiler during all build types." FORCE)
 endif()
 

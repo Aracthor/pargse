@@ -18,7 +18,6 @@ typedef struct pargse_s			pargse;
 
 typedef int	(*pargse_parse_arg_method)(pargse* pargse, const char* name, void* data, char* token);
 
-
 typedef enum	pargse_bool_e
 {
     pargse_false = 0,
@@ -52,6 +51,9 @@ typedef struct		pargse_s
     pargse_flagged_arg*	flagged_args;
     unsigned int	flagged_args_number;
 }			pargse;
+
+int	pargse_add_flagged_arg(pargse* pargse, char c, const char* name, pargse_bool mandatory, void* data,
+			       pargse_parse_arg_method method);
 
 int	pargse_parse_char(pargse* pargse, const char* name, void* data, char* token);
 int	pargse_parse_int(pargse* pargse, const char* name, void* data, char* token);

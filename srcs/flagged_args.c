@@ -4,8 +4,11 @@
 
 #include "pargse.h"
 
-static int	add_flagged_arg(pargse* pargse, char flag, const char* name, pargse_bool mandatory, void* data,
-				pargse_parse_arg_method method)
+/**
+ * Not static because it needs to be called from C++ encapsulation.
+ */
+int	pargse_add_flagged_arg(pargse* pargse, char flag, const char* name, pargse_bool mandatory, void* data,
+			       pargse_parse_arg_method method)
 {
     pargse->flagged_args_number++;
     pargse->flagged_args = realloc(pargse->flagged_args, pargse->flagged_args_number * sizeof(pargse_flagged_arg));
@@ -27,22 +30,22 @@ static int	add_flagged_arg(pargse* pargse, char flag, const char* name, pargse_b
 
 int	pargse_add_flagged_char_arg(pargse* pargse, char flag, const char* name, pargse_bool mandatory, char* c)
 {
-    return add_flagged_arg(pargse, flag, name, mandatory, c, &pargse_parse_char);
+    return pargse_add_flagged_arg(pargse, flag, name, mandatory, c, &pargse_parse_char);
 }
 
 int	pargse_add_flagged_int_arg(pargse* pargse, char flag, const char* name, pargse_bool mandatory, int* number)
 {
-    return add_flagged_arg(pargse, flag, name, mandatory, number, &pargse_parse_int);
+    return pargse_add_flagged_arg(pargse, flag, name, mandatory, number, &pargse_parse_int);
 }
 
 int	pargse_add_flagged_str_arg(pargse* pargse, char flag, const char* name, pargse_bool mandatory, char** str)
 {
-    return add_flagged_arg(pargse, flag, name, mandatory, str, &pargse_parse_str);
+    return pargse_add_flagged_arg(pargse, flag, name, mandatory, str, &pargse_parse_str);
 }
 
 int	pargse_add_flagged_bool_arg(pargse* pargse, char flag, const char* name, pargse_bool* boolean)
 {
-    return add_flagged_arg(pargse, flag, name, pargse_false, boolean, NULL);
+    return pargse_add_flagged_arg(pargse, flag, name, pargse_false, boolean, NULL);
 }
 
 static void	unexpected_token(pargse* pargse, const char* token)

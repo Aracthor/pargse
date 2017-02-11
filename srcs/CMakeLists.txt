@@ -6,5 +6,6 @@ set(SRCS_FILES
   flagged_args.c
   init.c
   parse.c
+  Pargse.cpp
   PARENT_SCOPE
   )
